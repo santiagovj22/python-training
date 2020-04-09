@@ -1,0 +1,153 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Jalasoft Bootcamp API
+  description: API for Bootcamp Management
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:8000
+paths:
+  /games:
+    post:
+      description: Creates a Video Game
+      tags: 
+        - Games
+      requestBody:
+        description: "Request body"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Game'
+      responses:
+        "200":
+          description: Get Created Game
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+              example:
+                id: "cae9c846-7b99-404c-9b06-3259ffb97332"
+                name: "Space Invaders"
+                genre: "Arcade"
+                platforms: ["PSP"]
+    get:
+      description: Get the list of games
+      tags: 
+        - Games
+      parameters: 
+        - name: limit
+          in: query
+          schema:
+            type: integer           
+      responses:
+        "200":
+          description: "List Games"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Game'
+              example:
+              - id: "3402397a-01a6-4bad-87a8-cdc36e4e6c0c"
+                name: "Pacman Classic"
+                genre: "ARCADE"
+                platforms: ["PS4"]
+              - id: "dc1fee1c-1674-4c8f-bd78-dd92117aeee3"
+                name: "Tetris"
+                genre: "Arcade"
+                platforms: ["ATARI"]
+              - id: "f73b9421-ee64-42d8-9f5c-52aed91386b2"
+                name: "CoronaVirus War"
+                genre: "Survival"
+                platforms: ["NINTENDO SWITCH"]
+  /games/{game_id}:
+    get:
+      description: Get a single game by id
+      tags: 
+        - Games
+      parameters: 
+        - name: game_id
+          description: The id of the game
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Get Game
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+              example:
+                id: "5ff7c62b-bb7a-4063-8f99-7d7845fe01b0"
+                name: "Mario Bros"
+                genre: "Platform"
+                platforms: ["Wii", "PSP"]
+                
+        
+        '404':
+          description: "Game doesn't exists"
+    delete:
+      tags: 
+        - Games
+      parameters: 
+        - name: game_id
+          description: The id of the game
+          in: path
+          required: true
+          schema:
+            type: string      
+      responses:
+        '204':
+          description: "Game deleted successfully"
+        '404':
+          description: "Game doesn't exists"
+    put:
+      tags: 
+        - Games
+      description: Updates a game      
+      requestBody:
+        description: "Request body"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Game'
+      parameters: 
+        - name: game_id
+          description: The id of the game
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "Game updated successfully"
+        '404':
+          description: "Game doesn't exists"
+components:
+  schemas: 
+    Game:
+      required:
+        - Games
+      properties:
+        id:
+          description: "guid generated from DB. Not required"
+          type: string
+          example: '694f79e8-bef1-496f-bb31-098c97e8cf68'
+          readOnly: true  
+        name:
+          description: "the name of the game"
+          type: string
+          example: 'PACMAN'
+        genre:
+          description: "the genre of the game"
+          type: string
+          example: 'Arcade'         
+        platfoms:
+          description: "the supported platforms for the game"
+          type: string
+          example: 'PS4'
+        

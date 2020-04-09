@@ -1,0 +1,21 @@
+version: '3.0'
+
+services:
+  apisprout:
+    container_name: apisprout
+    image: danielgtaylor/apisprout
+    volumes: 
+      - ./:/oas
+    command:  ['/oas/api.yaml']
+    ports:
+      - '3001:8000'
+  
+  swagger_ui:
+    container_name: swagger_io
+    image: swaggerapi/swagger-ui
+    volumes: 
+      - ./:/oas
+    environment: 
+      SWAGGER_JSON: '/oas/api.yaml'
+    ports:
+      - "3080:8080"
