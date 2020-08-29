@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+     content="width=device-width, initial-scale=1, user-scalable=yes">
+   <script src="/static/js/oidc-client.js"></script>
+</head>
+<body>
+<h1>Minimal SPA Login Example + Authentication Code Flow + API</h1>
+
+<div>
+ After login process
+ <div id='user'>
+ </div>
+<br/>
+ <div>
+     <h2>Authentication Code Received:</h2>
+     <div><textarea id="token" rows="1" cols=80">
+      </textarea></div>
+</div>
+</div>
+
+<button id="api">Login to API with Autentication Code</button>
+
+
+
+<div id='protected' style='display:none'>
+  <div id='response'>
+  </div>
+  <button id="logout">Logout</button>
+  <button id="apicall">Call protected method in API</button>
+  <div id='apidiv'>
+  </div>
+</div>
+</body>
+
+<script>
+  //redirect to the Universal Login Page
+  window.addEventListener('load', () => {
+    console.log('After Authorize')
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+
+    document.getElementById('token').value = code;
+    
+    document.getElementById('api').addEventListener('click', () => {
+                  responseDiv = document.getElementById('response')
+                  protectedDiv = document.getElementById('protected')
+                  apiDiv = document.getElementById('apicall');
+                  loginButton = document.getElementById('logout');
+                  apiResponseDiv = document.getElementById('apidiv');
+                  protected.style.diplay = "none";
+                  responseDiv.innerText = ""
+
+                  callAuthApi(code, (response) => {
+                    console.log(response)
+                    responseDiv.innerHTML = "<H2>API response</H2>" + JSON.stringify(response, null, '<br/>');
+                    protected.style.display = "block";
+                    
+                    apiDiv.addEventListener('click', () => {
+                      callProtectedApi(response.jwt, (protectedResponse) => {
+                        apiResponseDiv.innerHTML = JSON.stringify(protectedResponse);
+                      })
+                    })
+
+                    loginButton.addEventListener('click', () => {
+                      window.location = "https://dev.login.jala-one.com/auth/realms/traveler/protocol/openid-connect/logout"
+                      + "?id_token_hint=" + response.jwt 
+                      + "&post_logout_redirect_uri=" + "http://localhost:5000/logout"
+                    })
+                  });
+                });
+  
+});
+  </script>
+
+</html>

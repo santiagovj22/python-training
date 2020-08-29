@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+     content="width=device-width, initial-scale=1, user-scalable=yes">
+   <script src="/static/js/auth0-spa-js.production.js"></script>
+   <script src="/static/js/auth0-client.js"></script>
+</head>
+<body>
+<h1>Minimal SPA Login Example + API</h1>
+
+<div>
+  At this point your user is logged out
+<button id="login">Login Again</button>
+</div>
+</body>
+
+<script>
+  //redirect to the Universal Login Page
+  document.getElementById('login').addEventListener('click', () => {
+    handleAuth0((ac)=>{
+      ac.loginWithRedirect().catch(() => {
+      console.log('error while redirecting the user')
+    })});
+  });
+  
+  </script>
+
+</html>

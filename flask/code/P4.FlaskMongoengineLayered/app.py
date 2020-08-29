@@ -1,12 +1,12 @@
 #Example 4
 import json
 from flask import Flask, request, Response
-#from services.stubGamesService import get_service
+#from services.stub_games_service import get_service
 from services.games_service import get_service
 
 app = Flask(__name__)
 
-MONGO_CNX = 'mongodb://root:jala@localhost:27017/gamestore?authSource=gamestore'
+MONGO_CNX = 'mongodb://flask:flaskpwd@localhost:27017/gamestore?authSource=gamestore'
 
 app.config['MONGODB_SETTINGS'] = {'host': MONGO_CNX}
 

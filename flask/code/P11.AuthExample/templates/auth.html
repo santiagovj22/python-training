@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+     content="width=device-width, initial-scale=1, user-scalable=yes">
+   <script src="/static/js/auth0-spa-js.production.js"></script>
+   <script src="/static/js/auth0-client.js"></script>
+</head>
+<body>
+<h1>Minimal SPA Login Example + API</h1>
+
+<div>
+ After login process
+ <div id='user'>
+ </div>
+<br/>
+ <div>
+     <h2>Token (JWT):</h2>
+     <div><textarea id="token" rows="10" cols=80">
+      </textarea></div>
+</div>
+</div>
+
+<button id="api">Invoke API with JWT</button>
+
+<button id="logout">Logout</button>
+
+<div id='response'>
+</div>
+</body>
+
+<script>
+  //redirect to the Universal Login Page
+  window.addEventListener('load', () => {
+    console.log('After Authorize')
+
+    handleAuth0((ac) => {
+        ac.handleRedirectCallback().then(redirectResult => {
+            ac.getUser().then(user => {
+                console.log(user);
+                document.getElementById('user').innerHTML =  JSON.stringify(user, null, '<br/>'); 
+            });
+
+            ac.getIdTokenClaims().then(claims => {
+                console.log(claims.__raw);
+                document.getElementById('token').value = claims.__raw;
+
+                document.getElementById('api').addEventListener('click', () => {
+                  document.getElementById('response').innerText = ""
+                  callApi(claims.__raw, (response) => {
+                    console.log(response)
+                    document.getElementById('response').innerHTML = '<H2>API response</H2>' + JSON.stringify(response);
+                  });
+                });
+            });
+      
+            document.getElementById('logout').addEventListener('click', () => {
+            ac.logout();});
+
+
+            
+    });
+    })
+
+  
+});
+  </script>
+
+</html>

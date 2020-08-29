@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+     content="width=device-width, initial-scale=1, user-scalable=yes">
+   <script src="/static/js/oidc-client.js"></script>
+</head>
+<body>
+<h1>Minimal SPA Login Example + Authentication Code Flow + API</h1>
+
+<div>
+  At this point your user is logged out
+<button id="login">Login Again</button>
+</div>
+</body>
+
+<script>
+  //redirect to the Universal Login Page
+  document.getElementById('login').addEventListener('click', () => {
+    window.location = '/'
+  });
+  
+  </script>
+
+</html>

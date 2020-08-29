@@ -8,7 +8,7 @@ services:
       - ./:/oas
     command:  ['/oas/api.yaml']
     ports:
-      - '3001:8000'
+      - '8000:8000'
   
   swagger_ui:
     container_name: swagger_io
@@ -18,4 +18,4 @@ services:
     environment: 
       SWAGGER_JSON: '/oas/api.yaml'
     ports:
-      - "3080:8080"
+      - "80:8080"

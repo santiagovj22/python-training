@@ -86,7 +86,6 @@ paths:
                 name: "Mario Bros"
                 genre: "Platform"
                 platforms: ["Wii", "PSP"]
-                
         
         '404':
           description: "Game doesn't exists"
